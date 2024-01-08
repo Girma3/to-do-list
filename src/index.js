@@ -1,13 +1,16 @@
 import './style.css'
-//function to create card to hold list name and add task btn
-function createToDoCard(){
-   
+//function to create card to hold list name and add task btn to create task related to it
+function createToDoCard(listname){
+     const newCard = document.createElement('div');
+           newCard.classList.add('card')  
   
      const taskDiv = document.createElement('div');
            taskDiv.classList.add('list-holder');
 
+        
+
      const listName = document.createElement('h2');
-          listName.textContent = 'Gym';
+           listName.textContent = `${listname}`;
 
      const btnHolder = document.createElement('div');
             btnHolder.classList.add('list-btn') 
@@ -26,28 +29,24 @@ function createToDoCard(){
      const deleteIcon =  document.createElement('i');
            deleteIcon.setAttribute('class',"fa-solid fa-trash");
 
+     const addTask = document.createElement('button');
+           addTask.textContent = '+ Add Task'
+           addTask.classList.add('add-task')
+
            deleteBtn.appendChild(deleteIcon)
 
             btnHolder.appendChild(editBtn);
             btnHolder.appendChild(deleteBtn);
 
             taskDiv.appendChild(listName);
-            taskDiv.appendChild(btnHolder);  
+            taskDiv.appendChild(btnHolder); 
+            
+            newCard.appendChild(taskDiv);
+            newCard.appendChild(addTask);
+     const fragment = document.createDocumentFragment();
+           fragment.appendChild(newCard)
 
-     
-     const addTask = document.createElement('button');
-            addTask.textContent = '+ Add Task'
-            addTask.classList.add('add-task')
-    
-          let items = [taskDiv,addTask]  
-          const fragment = document.createDocumentFragment();
-
-          items.forEach(item => {
-            fragment.appendChild(item);
-         });
-
-         return fragment
-
+      return fragment
 }
 
 // function to create task with the task name,it's detail and due date elements to show about the task 
@@ -124,16 +123,34 @@ function createTask(){
            
           return taskFragment
 }
-const divs = document.querySelector('.card');
-divs.appendChild(createToDoCard())
-divs.appendChild(createTask())
-// show form when add task clecked
-const FormHolder = document.querySelector('.task-form-holder');
-const taskForm = document.querySelector('.task-form');
-const addTaskBtn = document.querySelector('.add-task');
 
-addTaskBtn.addEventListener('click',(e)=>{
-     console.log('hey')
-     FormHolder.style.display = 'block'
+//create the card with input form
+     const listForm = document.querySelector('.list-form');
+     listForm.addEventListener('click',(e)=>{
+          if(e.target.matches('.submit-list')){
+               e.preventDefault();
+               //grab the input and create by calling create card function and append it 
+               const listTitle = document.querySelector('[data-name = user-list]');
+               const taskCard = document.querySelector('.task-cards');
+              
+
+    
+               taskCard.appendChild(createToDoCard(listTitle.value))
+              
+               
+               
+          }
+     })
+
+
+// divs.appendChild(createTask())
+// // show form when add task clecked
+// const FormHolder = document.querySelector('.task-form-holder');
+// const taskForm = document.querySelector('.task-form');
+// const addTaskBtn = document.querySelector('.add-task');
+
+// addTaskBtn.addEventListener('click',(e)=>{
+//      console.log('hey')
+//      FormHolder.style.display = 'block'
      
-})
+// })
