@@ -87,13 +87,16 @@ main.addEventListener('click',(e)=>{
          }
          //event on priority form
     if(e.target.matches('.task-priority-form')){
-            let index = e.target.dataset.priority
+            let index = Number(e.target.dataset.priority)
             let  objIndex = Number(lists.length)-Number(1)
             let selectedobj = lists[objIndex]
             let prioritySelect  = document.querySelector(`[data-priority='${index}']`);
             //task name
             let taskname =  document.querySelector(`[data-new-name='${index}']`);
+            console.log(lists,index,objIndex,selectedobj)
+            
             let updatePriority = selectedobj.tasks[index].priority = prioritySelect.value
+            console.log(selectedobj.tasks[index].priority )
             //refresh the style name
                  taskname.style.backgroundColor = selectedobj.tasks[index].taskFlag;
                
@@ -109,7 +112,7 @@ main.addEventListener('click',(e)=>{
                     userTaskDetail.addEventListener('change',e=>{
                 //update the detail and save
                 let updateDetail = selectedobj.tasks[index].detail = userTaskDetail.value
-                userTaskDetail.textContent = selectedobj.tasks[index].userTaskDetail
+                     userTaskDetail.textContent = selectedobj.tasks[index].userTaskDetail
               });
              }
       if(e.target.matches('[data-task-checkbox')){
@@ -121,13 +124,18 @@ main.addEventListener('click',(e)=>{
                     userTaskStatus.addEventListener('change',(e) => {
                       //if checked is true the task is complete else false
                       let updateComplete = selectedobj.tasks[index].complete = userTaskStatus.checked
-                    console.log(selectedobj.tasks[index].status);
+                   
                           
                       let alltask = selectedobj.tasks.filter(task=> task.complete == true)
-                     // console.log()
+                   
                       //card task completed count has same id as object id
                       let projetTasks = document.querySelector(`[data-completed-task='${selectedobj.id}']`);
-                          projetTasks.textContent = alltask.length
+                           selectedobj.tasksFinished = alltask.length
+                           projetTasks.textContent = selectedobj.count
+                          
+                           
+                        
+                         
                     
                        });
 
@@ -158,5 +166,6 @@ listHolder.addEventListener('click',(e)=>{
       //append  tasks to related project useing id
       let currentCard = document.querySelector(`[data-task-store='${id}']`);
           currentCard.appendChild(taskTemplate(selectedobj.tasks))
+          console.log(selectedobj.tasks)
     
 });
