@@ -6,65 +6,21 @@ import { formatDistanceToNowStrict,format } from "date-fns";
                   return{
                         name:name,
                         detail:detail,
-                        get userDetail(){
-                              if(this.detail == undefined) return ''
-                              let aboutTask = this.detail
-                                  return aboutTask
-                        },
                         date:date,
-                        get realDate(){
-                                 if(this.date == NaN || this.date == undefined){ return format(Date.now(),"EE io LLL yyyy")}
-                              let result = formatDistanceToNowStrict(this.date,{addSuffix:true})
-                              return result
-                        },
-                             
-                              
-                              
-                              
-                        
-                        
                         priority:priority,
-                        get taskFlag(){
-                              let style;
-                              if(this.priority == 'Priority' || this.priority == undefined) return "white"
-
-                              else if(this.priority == 'high'){
-                                   
-                                     return style = 'red'
-                              }
-                              else if(this.priority == 'medium'){
-                                    return style = 'yellow'
-                              }
-                              else if(this.priority == 'low'){
-                                    return style = 'pink'
-                              }
-                        },
                         complete:complete,
-                        get status(){
-                            let taskStatus = this.complete == true ? 'checked' : ' ';
-                            return taskStatus
-                              
-                        },
-                       
                         id:Date.now().toString()
                    }
             }
 //object to create list name and has array to store related task inside it
-      export function CreateList(name,tasksFinished){
-            return{
-                  name:name,
-                  id:Date.now().toString(),
-                  tasksFinished:tasksFinished,
-                  get count(){
-                      if(this.tasksFinished == undefined) return `Finished task will be counted here ✅ `
-                      else if(this.tasksFinished == 1) return `${this.tasksFinished} task Finished 🎯`
-                        let tasksCompleted =  this.tasksFinished > 1 ? `${this.tasksFinished} tasks finished  🚀 ` : `No task completed yet 📋.`
-                            return tasksCompleted
-                   },
-                  tasks:[]
-
-            }
-       }
+      export function CreateList(name,completed){
+                        return{
+                            name:name,
+                            id:Date.now().toString(),
+                            completed:completed,
+                            tasks:[]
+                            }
+                }
 
       
       
@@ -73,10 +29,14 @@ import { formatDistanceToNowStrict,format } from "date-fns";
     //function that creat card html for list use object as parameter
 
  export     function cardTemplate(list){
-       let div = document.createElement('div');
-            div.dataset.card = `${list.id}`;
-            div.setAttribute('class','card')
-           let card = `
+                let div = document.createElement('div');
+                        div.dataset.card = `${list.id}`;
+                        div.setAttribute('class','card')
+                   //completed by default is undefined  
+                    if(list.completed == undefined) {
+                        list.completed = "completed tasks counted here ✅"
+                    }
+                 let card = `
                   
                         <div class="head">
                            <div class="project-holder">
@@ -92,7 +52,7 @@ import { formatDistanceToNowStrict,format } from "date-fns";
                         </div>
 
                               
-                              <h5 data-completed-task='${list.id}'>${list.count}</h5>
+                              <h5 data-completed-task='${list.id}'>${list.completed}</h5>
                         </div>
 
                         <div class="form-task">
@@ -134,6 +94,12 @@ import { formatDistanceToNowStrict,format } from "date-fns";
      
            let divs = document.createElement('div');
             taskArray.forEach(task=> {
+                if(task.date == NaN || task.date == undefined){
+                     task.date =  format(Date.now(),"EE io LLL yyyy")
+                    }
+                 if(task.detail == undefined){
+                    task.detail = ''
+                 }
                   let div = document.createElement('div');
      
           let taskhtml = `
@@ -142,8 +108,8 @@ import { formatDistanceToNowStrict,format } from "date-fns";
             
             <div class="task-head">
                   <div class="task-head-input">
-                        <input type="checkbox" name="${task.name}" ${task.status} data-task-checkbox class="task-checkbox" data-checkbox='${task.id}'>   
-                        <input type="text" name="${task.name}" style='background:${task.taskFlag};' data-user-task-name data-new-name='${task.id}'  value='${task.name}'>  
+                        <input type="checkbox" name="${task.name}" ${task.complete} data-task-checkbox class="task-checkbox" data-checkbox='${task.id}'>   
+                        <input type="text" name="${task.name}" style='background:${task.priority};' data-user-task-name data-new-name='${task.id}'  value='${task.name}'>  
                   </div>
                   <div class="task-btn-holder">
                         <button data-show-detail='${task.id}' class="task-edit-btn"><i class="fa-solid fa-pen-to-square edit-task"></i></button>
@@ -156,15 +122,15 @@ import { formatDistanceToNowStrict,format } from "date-fns";
                  <span>
                     <input type="date" name="crossfit"  data-task-date data-date-input='${task.id}' placeholder='m'>
                     <select  name ='priority' class='task-priority-form'  data-priority ='${task.id}' >
-                        <option> set priority </option>
-                        <option value="high">Priority 1</option>
-                        <option value="medium">Priority 2</option>
-                        <option value="low">Priority 3</option>
+                       
+                        <option value="red">high(red)</option>
+                        <option value="yellow">yellow</option>
+                        <option value="pink">pink</option>
                    </select>
-                   <p class="due-date" data-due-date ='${task.id}'>${task.realDate}</p>
+                   <p class="due-date" data-due-date ='${task.id}'>${task.date}</p>
                 </span>
                 <div>
-                    <textarea name="crossfit" placeholder="detail" class='task-description' data-detail='${task.id}' >${task.userDetail}</textarea>
+                    <textarea name="crossfit" placeholder="detail" class='task-description' data-detail='${task.id}' >${task.detail}</textarea>
                 </div>
            </div>
            </div>
@@ -179,10 +145,10 @@ import { formatDistanceToNowStrict,format } from "date-fns";
       
      
      
-      export function displayCard(lists,dom){
+      export function displayCard(obj,dom){
      
             dom.textContent = ''
-                dom.appendChild(cardTemplate(lists))
+                dom.appendChild(cardTemplate(obj))
                 
                 return dom
        }
@@ -213,7 +179,7 @@ import { formatDistanceToNowStrict,format } from "date-fns";
         *function to find task using id
         *parameter 1:obj
         *parameter 2:id
-        *parameter indide: obj tasks and id property used
+        * object tasks and id property used
         */
         export function findTask(obj,id){
             let targetTask;
@@ -225,7 +191,7 @@ import { formatDistanceToNowStrict,format } from "date-fns";
          
              return targetTask
          }
-         //function that accept nodelist find that element and display it and lose others
+         //function that accept nodelist find that element and display it and close others
         export function hideOthers(arr,domElement){
             arr.forEach(element => {
                 if(element == domElement){
