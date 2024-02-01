@@ -1,19 +1,17 @@
-///import { Template } from "webpack";
-
-import { formatDistanceToNowStrict,format } from "date-fns";
+import {format } from "date-fns";
 //factory function to create task using user input 
      export function CreateTask(name,date,detail,priority,complete){
-                  return{
-                        name:name,
-                        detail:detail,
-                        date:date,
-                        priority:priority,
-                        complete:complete,
-                        id:Date.now().toString()
-                   }
+                        return{
+                                name:name,
+                                detail:detail,
+                                date:date,
+                                priority:priority,
+                                complete:complete,
+                                id:Date.now().toString()
+                        }
             }
 //object to create list name and has array to store related task inside it
-      export function CreateList(name,completed){
+    export function CreateList(name,completed){
                         return{
                             name:name,
                             id:Date.now().toString(),
@@ -21,21 +19,27 @@ import { formatDistanceToNowStrict,format } from "date-fns";
                             tasks:[]
                             }
                 }
-
-      
-      
-
-  
-    //function that creat card html for list use object as parameter
-
- export     function cardTemplate(list){
-                let div = document.createElement('div');
+//function that creat card html for list use object as parameter
+    export function cardTemplate(list){
+               let div = document.createElement('div');
                         div.dataset.card = `${list.id}`;
-                        div.setAttribute('class','card')
-                   //completed by default is undefined  
-                    if(list.completed == undefined) {
-                        list.completed = "completed tasks counted here ✅"
-                    }
+                        div.setAttribute('class','card');
+                        //completed by default is undefined 
+                        
+                        console.log(list.completed)
+                        if(list.completed !== undefined && list.completed !== 0){
+                            list.completed == 1 ? list.completed = `${list.completed} task completed 🎯`
+                             : list.completed = 
+                            `${list.completed} tasks completed 🚀`
+                            console.log(list.completed)
+                        }
+                        if(list.completed == 0 || list.completed == undefined){
+                            list.completed = "completed tasks wii be counted here ✅";
+                        }
+                        
+                        
+                        
+                        
                  let card = `
                   
                         <div class="head">
@@ -50,9 +54,7 @@ import { formatDistanceToNowStrict,format } from "date-fns";
                            </div>
 
                         </div>
-
-                              
-                              <h5 data-completed-task='${list.id}'>${list.completed}</h5>
+                           <h5 data-completed-task='${list.id}'>${list.completed}</h5>
                         </div>
 
                         <div class="form-task">
@@ -68,88 +70,73 @@ import { formatDistanceToNowStrict,format } from "date-fns";
                   
                   `
                  div.innerHTML = card
-             //})
-             return div
+            return div
         }
       //function to inject literal html to parent item to display
    export   function displayList(arr,dom){
-      dom.textContent = '';
-      arr.forEach(list=>{
-        let li = document.createElement('li');
-            li.textContent = list.name 
-            li.dataset.list = list.id
-            dom.appendChild(li)
-            
-      })
-      }  
-    
-      
-
-
-                        
-
-          
-      //function that creat task html use array of objects as parameter
+                dom.textContent = '';
+                arr.forEach(list=>{
+                    let li = document.createElement('li');
+                        li.textContent = list.name;
+                        li.dataset.list = list.id;
+                        dom.appendChild(li)
+                    });
+             }  
+//function that creat task html use array of objects as parameter
   export  function taskTemplate(taskArray){
      
-           let divs = document.createElement('div');
-            taskArray.forEach(task=> {
-                if(task.date == NaN || task.date == undefined){
-                     task.date =  format(Date.now(),"EE io LLL yyyy")
-                    }
-                 if(task.detail == undefined){
-                    task.detail = ''
-                 }
-                  let div = document.createElement('div');
+                let divs = document.createElement('div');
+                    taskArray.forEach(task=> {
+                        //detail about task empty at first
+                            if(task.date == NaN || task.date == undefined){
+                                task.date =  format(Date.now(),"EE io LLL yyyy")
+                                }
+                            if(task.detail == undefined){
+                                task.detail = ''
+                            }
+        let div = document.createElement('div');
+     
      
           let taskhtml = `
             <div class='task-holder' id="${task.id}" data-task-holder='${task.id}'>
-                
-            
-            <div class="task-head">
+                <div class="task-head">
                   <div class="task-head-input">
                         <input type="checkbox" name="${task.name}" ${task.complete} data-task-checkbox class="task-checkbox" data-checkbox='${task.id}'>   
-                        <input type="text" name="${task.name}" style='background:${task.priority};' data-user-task-name data-new-name='${task.id}'  value='${task.name}'>  
+                        <input type="text" name="${task.name}" style='background:${task.priority};' data-user-task-name data-new-name='${task.id}' value="${task.name}">  
                   </div>
                   <div class="task-btn-holder">
                         <button data-show-detail='${task.id}' class="task-edit-btn"><i class="fa-solid fa-pen-to-square edit-task"></i></button>
                         <button data-task-delete data-delete-task='${task.id}' class = "delete-task-btn"><i class="fa-solid fa-trash" data-delete-icon></i></button>
                   </div>
-            </div>      
-
-            <div class="task-detail-holder" data-about-task='${task.id}'> 
-                
+                </div>      
+                <div class="task-detail-holder" data-about-task='${task.id}'> 
                  <span>
                     <input type="date" name="crossfit"  data-task-date data-date-input='${task.id}' placeholder='m'>
                     <select  name ='priority' class='task-priority-form'  data-priority ='${task.id}' >
-                       
-                        <option value="red">high(red)</option>
-                        <option value="yellow">yellow</option>
-                        <option value="pink">pink</option>
+                        <option >Set Priority</option>
+                        <option value="red">high (red)</option>
+                        <option value="yellow">medium (yellow)</option>
+                        <option value="pink">Low (pink)</option>
                    </select>
                    <p class="due-date" data-due-date ='${task.id}'>${task.date}</p>
-                </span>
-                <div>
-                    <textarea name="crossfit" placeholder="detail" class='task-description' data-detail='${task.id}' >${task.detail}</textarea>
+                 </span>
+                    <div>
+                      <textarea name="crossfit" placeholder="detail" class='task-description' data-detail='${task.id}'>${task.detail}</textarea>
+                    </div>
                 </div>
-           </div>
-           </div>
+            </div>
            `
             div.innerHTML = taskhtml
             divs.appendChild(div)
       });
-           
-        
-        return divs
+           return divs
       }
       
      
-     
-      export function displayCard(obj,dom){
-     
-            dom.textContent = ''
+     //function that accept obj and dom element to append it creats html element and attach it to dom given 
+    export function displayCard(obj,dom){
+                dom.textContent = ''
                 dom.appendChild(cardTemplate(obj))
-                
                 return dom
        }
       
@@ -166,10 +153,9 @@ import { formatDistanceToNowStrict,format } from "date-fns";
        export   function findObj(arr,id){
            let targetObject;
             arr.forEach(obj =>{
-               
-                obj.tasks.forEach(task=>{
+               obj.tasks.forEach(task=>{
                     if(task.id == id){
-                        targetObject = obj
+                        targetObject = obj;
                     }
                 });
             });
@@ -185,7 +171,7 @@ import { formatDistanceToNowStrict,format } from "date-fns";
             let targetTask;
                 obj.tasks.forEach(task=>{
                    if((task.id == id) == true){
-                     targetTask = task
+                     targetTask = task;
                    }
                  });
          
@@ -193,27 +179,54 @@ import { formatDistanceToNowStrict,format } from "date-fns";
          }
          //function that accept nodelist find that element and display it and close others
         export function hideOthers(arr,domElement){
-            arr.forEach(element => {
-                if(element == domElement){
-                    element.style.display = 'block';
-                }
-                else{
-                    element.style.display = 'none';
-                }
-            });
+                arr.forEach(element => {
+                    element == domElement ? element.style.display = 'block' :element.style.display = 'none'
+                 });
           }
           //function to find object using id from array
        export   function findObject(arr,id){
             let targetObject;
-             arr.forEach(obj =>{
-                
-                if(obj.id == id){
-                    targetObject = obj
-                }
-                   
-                 });
-             
+                arr.forEach(obj =>{
+                    if(obj.id == id){
+                        targetObject = obj;
+                    }
+                });
              return targetObject
+         }
+         //default object to show
+    export     function defaultArray (){
+          let  todo =  
+            
+                {
+                    "name": "Make To Do List",
+                    "id": "1706788379794",
+                    "completed": 0,
+                    "tasks": [
+                        {
+                            "name": "Make Objects.",
+                            "detail": "",
+                            "date": "Thu 4th Feb 2024",
+                            "complete": "",
+                            "id": "1706788387842"
+                        },
+                        {
+                            "name": "list it's behaviours.",
+                            "detail": "",
+                            "date": "Thu 4th Feb 2024",
+                            "id": "1706788397200",
+                            "priority": "yellow"
+                        },
+                        {
+                            "name": "Separate logic and Dom.",
+                            "detail": "",
+                            "date": "Thu 4th Feb 2024",
+                            "id": "1706788420685"
+                        }
+                    ]
+                }
+            
+            ;
+            return todo
          }
 
      
