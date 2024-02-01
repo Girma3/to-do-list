@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+
+  
+</head>
+<body>
+    
+    <div class="wrapper">
+        <div class="header">
+            <header>
+                <div class="logo">To Do List</div>
+                <i class="fa-solid fa-check"></i>
+                </header>
+       </div>
+
+    <main>
+      <div class="side-nav">
+
+        <h2 class="nav-logo">Lists</h2>
+
+        <div class="list-form">
+            <form class="add-list">
+                <label for="list-name">Add List</label>
+                <input type="text" id="list-name" name="list-name" data-name="user-list" placeholder=" + list name">
+                <div class="btn-holder">
+                <button class="submit-list">add</button>
+                <button class="cancel-list">cancel</button>
+           
+            </form>
+        </div>
+        <ul data-lists>
+
+        </ul>
+     </div>
+    </div> 
+     <!-- side nav end -->
+    
+    <div class="task-cards"> </div>
+   
+    <!-- form to submit task and edit -->
+    <div class="task-form-holder">
+        <form class="task-form">
+            <label for="task-name">Task Name:</label>
+            <input type="text" name="task-name" id="task-name" data-todo = 'todo-title' placeholder="name" >
+
+            <label for="task-description">Description:</label>
+            <textarea type="text" name="task-description" id="task-description" data-todo = 'todo-detail' placeholder="detail"></textarea>
+
+            <label for="task-date">Due Date:</label>
+            <input type="date" name="task-date" id="task-date" data-todo = "todo-date">
+             <button class="create-card" type="submit">Add</button>
+        </form>
+    </div>
+
+    </main>
+
+</div>
+<div class="footer">
+<footer>@2024 for odin todo list project </footer>
+</div>
+ <script  src="main.js"></script>
+</body>
+</html>
