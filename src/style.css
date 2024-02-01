@@ -1,51 +1,278 @@
 @import url(../node_modules/@fortawesome/fontawesome-free/css/all.css);
-body{
-    margin: 0;
-    
-   }
+/* moul-regular - latin */
+@font-face {
+    font-display: swap; 
+    font-family: 'Moul';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./assets/moul-v27-latin-regular.woff2') format('woff2'); 
+  }
+/* pt-mono-regular - latin */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'PT Mono';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./assets/pt-mono-v13-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  }
+  /* russo-one-regular - latin */
+@font-face {
+    font-display: swap; 
+    font-family: 'Russo One';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./assets/russo-one-v16-latin-regular.woff2') format('woff2');
+  }
+  
 
-.wrapper{
-   min-height: 100vh;
-   background-color: rgb(0, 167, 0);
-  } 
-.header{
-   background-color: yellow;
-   text-align: center;
-   padding: 2rem;
- }
-.logo{
-   font-size: 2rem;
-}
-main{
-    height: 75vh;
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-}
-.side-nav{
-    padding:1rem;
-    background-color: rgb(161, 107, 211);
-}
-.main-content{
-    padding: 0.5rem;
-    background-color: rgb(55, 55, 128);
-}
-footer{
-    padding: 1rem;
-    text-align: center;
-}
+  /* chivo-mono-regular - latin */
+@font-face {
+    font-display: swap; 
+    font-family: 'Chivo Mono';
+    font-style: normal;
+    font-weight:900;
+    src: url('./assets/chivo-mono-v9-latin-regular.woff2') format('woff2');
+  }
+
+        :root{
+            *::before,
+            *::after{
+            box-sizing: border-box;
+            }
+            *{
+                margin:0;
+            }
+        }
+        body{
+            margin: 0;
+            font-family: 'PT Mono';
+        }
+        li{
+             font-family:'Russo One';  
+            
+        }
+        ul{
+             list-style-type: square;
+        }
+        .wrapper{
+            min-height: 100vh;
+            background-color: rgb(255, 255, 255);
+         } 
+        .header{
+            margin-top: 1px;
+            font-family: 'Moul';
+            color: rgb(198, 198, 3);
+            background-color: #191515;
+            text-align: center;
+            padding: 1rem;
+            
+        }
+        .logo{
+            font-size: 2rem;
+            text-shadow: #751e1e 3px 3px;
+        }
+        main{
+            height: 100%;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap:0.5rem;
+            padding: 1rem;
+            
+        }
+        .side-nav{
+            padding:1rem;
+            background-color: rgb(210 197 222);
+            max-width: fit-content;
+            border-radius: 0.5rem;
+            box-shadow: #751e1e 4px 4px 20px;
+            
+        }
+
+        footer{
+            padding: 1rem;
+            text-align: center;
+            background-color: #ff8c08;
+            
+        }
+        .footer,.btn-holder{
+            margin: 0.5rem;
+        }
+        
 /* card style */
-.card {
-    background-color: yellow;
-    width: 300px;
-    max-width: 800px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 3px solid black;
-    padding: 1rem;
+   .card {
+        background-color: rgb(217 235 242);
+        width: 90%;
+        height: 100%;
+        border: 3px solid #764f4f;
+        border-radius: 1rem;
+        padding: 0.5rem;
+        box-shadow: 3px 6px 8px 3px #15055d;
+    }
+    .project-holder{
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap:1rem;
+     }
+    .project-name{
+        border: none;
+        outline: none;
+        font-family: 'Russo One';
+        font-size: 2rem;
+    }
+        
+    .list-holder{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .list-btn,.task-btns{
+        display: flex;
+        gap:0.5rem;
+    }
+    .task-store{
+        max-height: fit-content;
+        display: flex;
+    }
+    /* add task form style */
+   .task-form-holder{
+        display: none;
+        padding: 1rem;
+        background-color: aquamarine;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+    }  
+   .task-form{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }  
+    .add-task{
+        margin-top: 1rem;
+    } 
+   .task-intro{
+        display: flex;
+        justify-content: space-between;
+    }
+   
+    .task-container{
+        margin-top: 0.2rem;
+        padding-left: 1.5rem;
+    }
 
+    .task-holder{
+        width: 50vw;
+        margin-top: 1rem;
+        border: 1px solid rgb(247, 0, 255);
+        border-radius: 0.5rem;
+        box-shadow: 0px 5px 6px 4px #080303;
+        padding: 0.5rem;
     }
-.list-icon{
-      display: flex;
-      gap:0.5rem;
+    .task-holder:hover{
+        border-top: 3px rgb(255, 12, 12) solid;
     }
+   
+    
+    .task-head{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        padding: 0.25em;
+        margin: 0.5rem;
+    }
+    .task-head-input{
+        display: flex;
+        align-items: center;
+        gap:0.5rem;
+    }
+    .task-priority-form{
+        cursor: pointer;
+        border-radius: 0.5rem;
+        padding: 0.1rem;
+        border: 1px solid orange;
+        
+    }
+
+    input:not(.project-name),textarea{
+        font-family: 'Chivo Mono';
+        padding: 0.4rem;
+        border: none;
+        background-color:transparent ;
+        border-radius: 4px;
+        font-size: 1rem;
+        
+        outline: none;
+    }
+    [data-user-task-name]{
+        width: 25vw;
+    }
+    input:not(:focus),textarea:not(:focus){
+        border-bottom: 2px solid blue;
+        margin: 0.2rem;
+    }
+    .project-name:not(:focus){
+        border: none;
+        outline: none;
+        background-color:inherit ;
+    }
+
+    input:focus,textarea:focus{
+        border-bottom: 2px solid green;
+        background-color: transparent;
+    }
+    [data-task-date]{
+        
+        background-color: aquamarine;
+    }
+    
+    /* card div style */
+   
+    .card-holder{
+        background-color: brown;
+    }
+
+    /* tasks style */
+    .task-detail-holder{
+        display: none;
+        margin-left: 3rem;
+    }
+     
+    p,h5{
+        margin-top: 0.5rem;
+    }
+    
+    button{
+        border: 1px solid rgb(234, 133, 0);
+        border-radius: 0.2rem;
+        font-family: 'PT Mono';
+    }
+    button:hover{
+        border:1px gold solid;
+        background-color: rgb(13, 0, 255);
+        color: aliceblue;
+        
+    }
+    .task-checkbox{
+        width: 1rem;
+        height:1rem;
+        
+    }
+     @media(max-width:675px){
+        main{
+           display: flex;
+           flex-wrap: wrap;
+        } 
+        .card{
+            width: 90vw;
+        }
+        .side-nav{
+            border-radius: 1rem;
+            min-width: 80vw;
+            height: fit-content;
+        }
+        
+        }
