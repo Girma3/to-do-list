@@ -49,6 +49,7 @@
         }
         li{
              font-family:'Russo One';  
+             cursor: pointer;
             
         }
         ul{
