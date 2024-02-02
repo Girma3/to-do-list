@@ -24,23 +24,18 @@ import {format } from "date-fns";
                let div = document.createElement('div');
                         div.dataset.card = `${list.id}`;
                         div.setAttribute('class','card');
-                        //completed by default is undefined 
-                        
-                        console.log(list.completed)
-                        if(list.completed !== undefined && list.completed !== 0){
-                            list.completed == 1 ? list.completed = `${list.completed} task completed 🎯`
-                             : list.completed = 
-                            `${list.completed} tasks completed 🚀`
-                            console.log(list.completed)
+                        //completed by default is undefined  to fix that
+                        if(list.completed == undefined || list.completed == 0){
+                            list.completed = `completed Tasks counted here.`;
                         }
-                        if(list.completed == 0 || list.completed == undefined){
-                            list.completed = "completed tasks wii be counted here ✅";
+                        else if(list.completed == 1){
+                            list.completed = `${list.completed} Task completed 🎯`;
+                        }
+                        else if(list.completed > 1){
+                             list.completed = `${list.completed} Tasks completed 🚀`;
                         }
                         
-                        
-                        
-                        
-                 let card = `
+                    let card = `
                   
                         <div class="head">
                            <div class="project-holder">
@@ -206,7 +201,7 @@ import {format } from "date-fns";
                             "name": "Make Objects.",
                             "detail": "",
                             "date": "Thu 4th Feb 2024",
-                            "complete": "",
+                            "complete": "0",
                             "id": "1706788387842"
                         },
                         {
