@@ -50,8 +50,11 @@
         li{
              font-family:'Russo One';  
              cursor: pointer;
-            
-        }
+         }
+         li:hover{
+            border-bottom: 1px solid green;
+            color: red;
+         }
         ul{
              list-style-type: square;
         }
