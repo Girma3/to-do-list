@@ -8,7 +8,7 @@ import { hideOthers } from './index.js'
 import { findObj } from './index.js'
 import { findTask } from './index.js'
 import { findObject } from './index.js'
-import { formatDistanceToNow } from 'date-fns'
+import { formatDistanceToNow, isValid } from 'date-fns'
 import { defaultArray } from './index.js'
 
 
@@ -17,7 +17,7 @@ let navList = document.querySelector('[data-lists]');
 let main = document.querySelector('.task-cards');
 let userList = document.querySelector('[data-name=user-list]');
 let submitList = document.querySelector('.submit-list');
-//list nav
+let cancelList = document.querySelector('.cancel-list');
 let listHolder = document.querySelector('[data-lists]');
 //localStorage.clear()
 //key for to store the array
@@ -33,15 +33,13 @@ function save(){
    }
    //run default todo
   if(lists.length == 0){
-    //console.log(defaultArray())
-    lists.push(defaultArray())
+    lists.push(defaultArray());
   }
 //show if our lists array has saved projects and tasks
 if(lists.length >= 1){
-    let index = Number(lists.length) - Number(1)
-     displayList(lists,navList)
+    let index = Number(lists.length) - Number(1);
+     displayList(lists,navList);
      displayCard(lists[index],main)
-     //find the last item object from the lists array using it's id
      selectedObj = findObject(lists,lists[index].id);
     //display the tasks from that object
     let currentCard = document.querySelector(`[data-task-store='${selectedObj.id}']`);
@@ -55,12 +53,16 @@ submitList.addEventListener('click',(e)=>{
     let userInput = userList.value;
     if(userList.value == '')return
     lists.push(CreateList(userInput))
-    let index = Number(lists.length) - Number(1)
+    let index = Number(lists.length) - Number(1);
     save()
     displayList(lists,navList)
     displayCard(lists[index],main)
     userList.value = '';
 });
+cancelList.addEventListener('click',(e)=>{
+    e.preventDefault();
+})
+
 
 main.addEventListener('click',(e)=>{
     
@@ -77,6 +79,9 @@ main.addEventListener('click',(e)=>{
             currentCard.textContent = ''
             currentCard.appendChild(taskTemplate(selectedObj.tasks));
             taskName.value = ''
+     }
+     if(e.target.matches('cancel-task')){
+        e.preventDefault();
      }
     if(e.target.matches('[data-user-task-name]')){
         id =Number(e.target.dataset.newName);
@@ -113,8 +118,8 @@ main.addEventListener('click',(e)=>{
                     selectedTask = findTask(selectedObj,id)
                     //summerize  the task due date
                     let dueDate = document.querySelector(`[data-due-date ='${id}']`);
+                   if(userDate.value == '')return
                     selectedTask.date = formatDistanceToNow(new Date(userDate.value),{addSuffix:true});
-                    //use object to update
                     dueDate.textContent = selectedTask.date;
                     //save
                     save()
@@ -156,8 +161,8 @@ main.addEventListener('click',(e)=>{
             let userTaskStatus = document.querySelector(`[data-checkbox='${id}']`);
                  userTaskStatus.addEventListener('change',(e) => {
                  //set the complete to checked if true when render the input mark will be checked
-                userTaskStatus.checked == true ?  selectedTask.complete = 'checked': selectedTask.complete =''
-                        let alltask = selectedObj.tasks.filter(task=> task.complete == 'checked')
+                userTaskStatus.checked == true ?  selectedTask.complete = 'checked': selectedTask.complete ='';
+                        let alltask = selectedObj.tasks.filter(task=> task.complete == 'checked');
                         //the card count has same id as object id
                         let projetTasks = document.querySelector(`[data-completed-task='${selectedObj.id}']`);
                             selectedObj.completed = alltask.length ;
@@ -207,8 +212,12 @@ main.addEventListener('click',(e)=>{
                  save()
                  //display the rest
                  if(lists.length >= 1){
-                     displayCard(lists[Number(lists.length) - Number(1)],main)
-                 }
+                    id = lists[0].id
+                     selectedObj = lists.find(list=> list.id == id);
+                     displayCard(selectedObj,main);
+                     let currentCard = document.querySelector(`[data-task-store='${id}']`);
+                          currentCard.appendChild(taskTemplate(selectedObj.tasks));
+                    }
     } 
 });
 //when the list clicked get the id of that list find that object and display it with it's tasks 
