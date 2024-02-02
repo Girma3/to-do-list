@@ -6,6 +6,7 @@ This project was solution for odin project to learn more about oop [https://www.
 ![intro page](./src/assets/intro.png)
 ![tasks edited](./src/assets/task-edit.png)
 # Live Preview link
+[https://girma3.github.io/to-do-list/]
 # what I learned
 -to separeate objects make them less coupled objects to get reused code,
 -to detect tightly coupled objects and how to  avoid it,
